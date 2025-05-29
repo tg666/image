@@ -1,6 +1,6 @@
 {
-    "name": "intervention/image",
-    "description": "Image handling and manipulation library with support for Laravel integration",
+    "name": "tg666/image",
+    "description": "[v2.7 compatibility with PHP 8.4] Image handling and manipulation library with support for Laravel integration",
     "homepage": "http://image.intervention.io/",
     "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
     "license": "MIT",
