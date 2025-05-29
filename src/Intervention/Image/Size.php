@@ -35,8 +35,15 @@ class Size
      * @param int   $height
      * @param Point $pivot
      */
-    public function __construct($width = null, $height = null, Point $pivot = null)
+    public function __construct($width = null, $height = null, $pivot = null)
     {
+        if (null !== $pivot && !($pivot instanceof Point)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $pivot must be an instance of %s or null.',
+                Point::class
+            ));
+        }
+
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
         $this->pivot = $pivot ? $pivot : new Point;
@@ -102,12 +109,19 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    public function resize($width, $height, Closure $callback = null)
+    public function resize($width, $height, $callback = null)
     {
         if (is_null($width) && is_null($height)) {
             throw new InvalidArgumentException(
                 "Width or height needs to be defined."
             );
+        }
+
+        if (null !== $callback && !($callback instanceof Closure)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $callback must be an instance of %s or null.',
+                Closure::class
+            ));
         }
 
         // new size with dominant width
@@ -137,8 +151,15 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeWidth($width, Closure $callback = null)
+    private function resizeWidth($width, $callback = null)
     {
+        if (null !== $callback && !($callback instanceof Closure)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $callback must be an instance of %s or null.',
+                Closure::class
+            ));
+        }
+
         $constraint = $this->getConstraint($callback);
 
         if ($constraint->isFixed(Constraint::UPSIZE)) {
@@ -173,8 +194,15 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeHeight($height, Closure $callback = null)
+    private function resizeHeight($height, $callback = null)
     {
+        if (null !== $callback && !($callback instanceof Closure)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $callback must be an instance of %s or null.',
+                Closure::class
+            ));
+        }
+
         $constraint = $this->getConstraint($callback);
 
         if ($constraint->isFixed(Constraint::UPSIZE)) {
@@ -361,7 +389,7 @@ class Size
      * @param  Closure $callback
      * @return \Intervention\Image\Constraint
      */
-    private function getConstraint(Closure $callback = null)
+    private function getConstraint($callback = null)
     {
         $constraint = new Constraint(clone $this);
 

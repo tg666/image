@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Closure;
+use Intervention\Image\Exception\InvalidArgumentException;
 
 class ImageManagerStatic
 {
@@ -18,8 +19,15 @@ class ImageManagerStatic
      *
      * @param ImageManager $manager
      */
-    public function __construct(ImageManager $manager = null)
+    public function __construct($manager = null)
     {
+        if (null !== $manager && !($manager instanceof ImageManager)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $manager must be an instance of %s or null.',
+                ImageManager::class
+            ));
+        }
+
         self::$manager = $manager ? $manager : new ImageManager;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exception\InvalidArgumentException;
 use Intervention\Image\Exception\NotWritableException;
 use Intervention\Image\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
@@ -89,8 +90,15 @@ class Image extends File
      * @param AbstractDriver $driver
      * @param mixed  $core
      */
-    public function __construct(AbstractDriver $driver = null, $core = null)
+    public function __construct($driver = null, $core = null)
     {
+        if (null !== $driver && !($driver instanceof AbstractDriver)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $driver must be an instance of %s or null.',
+                AbstractDriver::class
+            ));
+        }
+
         $this->driver = $driver;
         $this->core = $core;
     }

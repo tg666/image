@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Image\Exception\InvalidArgumentException;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
@@ -13,8 +14,22 @@ class Driver extends \Intervention\Image\AbstractDriver
      * @param Decoder $decoder
      * @param Encoder $encoder
      */
-    public function __construct(Decoder $decoder = null, Encoder $encoder = null)
+    public function __construct($decoder = null, $encoder = null)
     {
+        if (null !== $decoder && !($decoder instanceof Decoder)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $decoder must be an instance of %s or null.',
+                Decoder::class
+            ));
+        }
+
+        if (null !== $encoder && !($encoder instanceof Encoder)) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument $encoder must be an instance of %s or null.',
+                Encoder::class
+            ));
+        }
+
         if ( ! $this->coreAvailable()) {
             throw new NotSupportedException(
                 "GD Library extension not available with this PHP installation."
