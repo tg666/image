@@ -21,7 +21,9 @@ class ResetCommand extends AbstractCommand
         if (is_resource($backup) || $backup instanceof \GdImage) {
 
             // destroy current resource
-            imagedestroy($image->getCore());
+            if (PHP_VERSION_ID < 80000) { // no-op since PHP 8.0, deprecated in PHP 8.5
+                imagedestroy($image->getCore());
+            }
 
             // clone backup
             $backup = $image->getDriver()->cloneCore($backup);
